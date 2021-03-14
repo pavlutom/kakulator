@@ -34,6 +34,12 @@
                     <a href="{% url "homepage:home" %}" class="nav-link p-2">Home</a>
                 </li>
                 <li class="nav-item col-6 col-md-auto">
+                    <a href="#" class="nav-link p-2">Kakulate</a> {# TODO: kakulate url #}
+                </li>
+                <li class="nav-item col-6 col-md-auto">
+                    <a href="{% url "homepage:api_docs" %}" class="nav-link p-2">API</a>
+                </li>
+                <li class="nav-item col-6 col-md-auto">
                     <a href="{% url "homepage:about" %}" class="nav-link p-2">About us</a>
                 </li>
             </ul>
@@ -68,9 +74,6 @@
 <script src="{% static "libs/bootstrap/js/bootstrap.min.js" %}"></script>
 <script src="{% static "libs/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
 
-{#<script>#}
-{#    $('.collapse').collapse()#}
-{#</script>#}
 {% block scripts %}
 {% endblock scripts %}
 
