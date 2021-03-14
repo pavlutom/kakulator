@@ -32,7 +32,7 @@
     <span class="text-muted">Through Linux CLI utility cURL:</span>
     <div class="card mb-3">
         <div class="card-body">
-            <pre><code>curl -kX POST https://127.0.0.1:8880/api/v0/kakulate/ \
+            <pre><code>curl -kX POST {{ PROJECT_URL }}{% url "api:v0:kakulator:basic" %} \
 -H 'Accept: application/json' \
 -H 'Content-Type: application/json' \
 -d '{"query": "1+1"}'</code></pre>
