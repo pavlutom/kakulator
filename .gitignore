@@ -10,6 +10,3 @@ __pycache__/
 
 /conf/settings/local.py
 /requirements/local.txt
-
-/certs/localhost.crt
-/certs/localhost.key
