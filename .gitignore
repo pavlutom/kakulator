@@ -1,0 +1,15 @@
+/.idea/
+
+*.pyc
+__pycache__/
+
+.env
+/static/
+/media/
+/protected/
+
+/conf/settings/local.py
+/requirements/local.txt
+
+/certs/localhost.crt
+/certs/localhost.key
