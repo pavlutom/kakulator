@@ -62,7 +62,7 @@ Use the following command to run the Kakulator server:
 ```
 DJANGO_SETTINGS_MODULE=conf.settings.local ./manage.py runserver_plus 8880 --cert-file certs/localhost.crt
 ```
-You can also run it in your IDE, this is an example configuration in PyCharm:
+You can also run it from your IDE. This is an example configuration in PyCharm:
 ![image](https://user-images.githubusercontent.com/48059207/111070372-c4387e00-84d1-11eb-990c-01636fa12b5e.png)
 
 Then just open your favourite web browser, go to https://127.0.0.1:8880 and enjoy your kakulations!
