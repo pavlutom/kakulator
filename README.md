@@ -41,7 +41,7 @@ sudo apt install postgresql-13 postgresql-client-13
 
 Create a new database for Kakulator:
 ```
-sudo su - postgres -c psql <<< "create database kakulator with owner <your_db_superuser_scheme>"
+sudo su - postgres -c psql <<< "create database kakulator with owner <your_db_superuser_scheme>;"
 ```
 
 Before you run the Kakulator server, you need to apply database migrations with the following command:
