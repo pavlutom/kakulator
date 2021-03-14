@@ -16,7 +16,7 @@ pip install -r requirements/local.txt
 ```
 
 #### Environment variables
-Create a copy of the `.env.tmpl` and name it `.env`. Then you need to set the variables in the `.env` file to something like:
+Create a copy of the `.env.tmpl` file and name it `.env`. Then you need to set the variables in the `.env` file to something like:
 ```
 SECRET_KEY=<whatever_string_you_want>
 
@@ -55,7 +55,7 @@ There is also a handy script when you need to drop the database and create it ag
 ```
 
 #### Django settings
-Create a copy of the `conf/settings/local.tmpl.py` and name it `conf/settings/local.py`. At this point, you shouldn't have to alter the local settings further.
+Create a copy of the `conf/settings/local.tmpl.py` file and name it `conf/settings/local.py`. At this point, you shouldn't have to alter the local settings further.
 
 ### Running the server
 Use the following command to run the Kakulator server:
