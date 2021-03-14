@@ -35,7 +35,12 @@
                     <span class="badge badge-success">POST</span>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-sm btn-info my-0">Details</button>
+                    {% with id="kakulate" %}
+                        <button type="button" class="btn btn-sm btn-info my-0" data-toggle="modal" data-target="#{{ id }}">
+                            Details
+                        </button>
+                        {% include "api/inc/modal/detail/kakulate.html" %}
+                    {% endwith %}
                 </td>
             </tr>
             </tbody>

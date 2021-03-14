@@ -1,0 +1,51 @@
+{% extends "api/inc/modal/detail/base.html" %}
+
+{% block title %}
+    <code>kakulate/</code>
+{% endblock %}
+
+{% block content %}
+    <p>Allowed methods: <span class="badge badge-success">POST</span></p>
+
+    <h5>POST</h5>
+
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th scope="col">Parameter name</th>
+                <th scope="col">Required</th>
+                <th scope="col">Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">query</th>
+                <td>yes</td>
+                <td>Expression (string or integer) to kakulate.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h5>Example request</h5>
+    <span class="text-muted">Through Linux CLI utility cURL:</span>
+    <div class="card mb-3">
+        <div class="card-body">
+            <pre><code>curl -kX POST https://127.0.0.1:8880/api/v0/kakulate/ \
+-H 'Accept: application/json' \
+-H 'Content-Type: application/json' \
+-d '{"query": "1+1"}'</code></pre>
+        </div>
+    </div>
+
+    <h5>Example response</h5>
+    <div class="card mb-3">
+        <div class="card-body">
+            <pre><code>{
+    "query": "1+1",
+    "kakulated_result": 42069
+}</code></pre>
+        </div>
+    </div>
+{% endblock content %}
