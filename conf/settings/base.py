@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 
 PROJECT_URL = os.getenv("PROJECT_URL")
 PROJECT_NAME = os.getenv("PROJECT_NAME")
+PROJECT_VERSION = os.getenv("PROJECT_VERSION")
 
 
 # SECURITY (HTTPS)
@@ -66,12 +67,14 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 # Application definition
 
 PROJECT_APPS = [
+    "apps.api",
     "apps.homepage",
     "apps.kakulator",
 ]
 
 THIRD_PARTY_APPS = [
     "crispy_forms",
+    "rest_framework",
 ]
 
 DJANGO_APPS = [

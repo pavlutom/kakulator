@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+    {{ block.super }} | API
+{% endblock %}
+
+{% block content %}
+    <section class="py-5 container">
+        <h1 class="h2">
+            {{ PROJECT_NAME }} RESTful API
+        </h1>
+
+        <p>
+            Kakulator offers a RESTful API, that allows you to kakulate your data remotely.
+            Latest version of the API is located on <code>{{ PROJECT_URL }}/api/v0/</code>.
+        </p>
+        <p>
+            The Kakulator API offers the following resources:
+        </p>
+
+        <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Location</th>
+                <th scope="col">Methods</th>
+                <th scope="col">Details</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row"><code>kakulate/</code></th>
+                <td>
+                    <span class="badge badge-success">POST</span>
+                </td>
+                <td>
+                    {% with id="kakulate" %}
+                        <button type="button" class="btn btn-sm btn-info my-0" data-toggle="modal" data-target="#{{ id }}">
+                            Details
+                        </button>
+                        {% include "api/inc/modal/detail/kakulate.html" %}
+                    {% endwith %}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        </div>
+    </section>
+{% endblock content %}

@@ -37,7 +37,7 @@
                     <a href="{% url "kakulator:basic" %}" class="nav-link p-2">Kakulate</a> {# TODO: kakulate url #}
                 </li>
                 <li class="nav-item col-6 col-md-auto">
-                    <a href="{% url "homepage:api_docs" %}" class="nav-link p-2">API</a>
+                    <a href="{% url "api:docs" %}" class="nav-link p-2">API</a>
                 </li>
                 <li class="nav-item col-6 col-md-auto">
                     <a href="{% url "homepage:about" %}" class="nav-link p-2">About us</a>
@@ -72,7 +72,10 @@
     <div class="container-xl">
         <div class="d-flex justify-content-between py-3 text-secondary">
             <span>{{ PROJECT_NAME }}</span>
-            <span>Version: 0.0.1alpha</span>
+            <span>
+                <a href="https://github.com/pavlutom/kakulator/issues/" target="_blank">Report an issue</a>
+            </span>
+            <span><b>Version:</b> {{ PROJECT_VERSION }}</span>
         </div>
     </div>
 </footer>
