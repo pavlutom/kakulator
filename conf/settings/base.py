@@ -67,9 +67,12 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 
 PROJECT_APPS = [
     "apps.homepage",
+    "apps.kakulator",
 ]
 
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS = [
+    "crispy_forms",
+]
 
 DJANGO_APPS = [
     "django.contrib.admin",
@@ -117,6 +120,8 @@ TEMPLATES = [
         },
     },
 ]
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 WSGI_APPLICATION = "conf.wsgi.application"
 

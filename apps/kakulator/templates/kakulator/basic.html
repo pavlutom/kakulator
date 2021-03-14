@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+    {{ block.super }} | Kakulate
+{% endblock %}
+
+{% block content %}
+    <section class="py-5 container">
+        <h1 class="h2">
+            Basic Kakulation
+        </h1>
+
+        <p>
+            This is a basic demo of our cutting-edge kakulation software. Type your request into the 'Query' field,
+            click the 'Kakulate' button and watch the magic happen!
+        </p>
+        <p class="font-italic">
+            Note: Using advance machine learning and quantum physics, the kakulation software has already
+            processed your query before you even submitted it. As a result, when you click the 'Kakulate'
+            button, you will receive your kakulated results instantly.
+        </p>
+
+        <form method="get">
+            {% include "inc/messages.html" %}
+            <div class="row align-items-end">
+                <div class="col">
+                    {{ view.form.query|as_crispy_field }}
+                </div>
+                <div class="col-auto pl-0">
+                    <button type="submit" class="btn btn-block btn-primary mb-3">Kakulate</button>
+                </div>
+            </div>
+        </form>
+    </section>
+
+    {% if kakulated_result %}
+        <section class="py-5 container">
+            <h2 class="h3">Kakulated result</h2>
+            <p>This is the result of the kakulation:</p>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4>Query</h4>
+                    {{ request.GET.query }}
+                    <hr>
+                    <h4>Result</h4>
+                    {{ kakulated_result }}
+                </div>
+            </div>
+        </section>
+
+    {% endif %}
+{% endblock content %}
