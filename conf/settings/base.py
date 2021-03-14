@@ -66,12 +66,14 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 # Application definition
 
 PROJECT_APPS = [
+    "apps.api",
     "apps.homepage",
     "apps.kakulator",
 ]
 
 THIRD_PARTY_APPS = [
     "crispy_forms",
+    "rest_framework",
 ]
 
 DJANGO_APPS = [
