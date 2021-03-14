@@ -22,6 +22,7 @@ SECRET_KEY=<whatever_string_you_want>
 
 PROJECT_NAME=Kakulator
 PROJECT_URL=https://127.0.0.1:8880
+PROJECT_VERSION=0.0.2-alpha
 
 DB_NAME=kakulator
 DB_USER=<your_db_superuser_scheme>
