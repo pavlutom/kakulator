@@ -8,24 +8,25 @@ var window_height = screen.height / 2;
 context.canvas.height = window_height;
 context.canvas.width = window_width;
 
-let figure = document.createElement("img");
-
-figure.src = "sprits/playerRight.png";
-figure.style.backgroundColor = "rgba(0, 0, 0, 0.30)";
-figure.facing_right = true;
-figure.jumping = true;
-figure.x_velocity = 0;
-figure.y_velocity = 0;
-figure.x_pos = 0;
-figure.y_pos = 0;
-let spriteW = 48, spriteH = 55;
 
 class Player {
 
     constructor() {
+        this.spriteW = 48;
+        this.spriteH = 60;
+        this.sprite = new Image();
+        this.sprite.src = "sprits/playerRight.png";
+        this.facing_right = true;
+        this.jumping = true;
+        this.x = 0;
+        this.y = 0;
+        this.x_velocity = 0;
+        this.y_velocity = 0;
         this.face_right = true;
         this.pose = 8;
         this.frame_no = 0;
+        this.equiped = 0;
+        this.degree = 40;
     }
 
     increment() {
@@ -34,38 +35,59 @@ class Player {
             this.frame_no = 0;
         } else {
             this.frame_no++;
+            this.degree = (30 - this.pose * 1.5);
         }
     }
 
+    drawEquipped() {
+        this.weapon = new Image(50, 16);
+        this.weapon.src = "sprits/characters/Staves_1/1.png";
+        //context.drawImage(this.weapon, this.x + 25, this.y + 30);
+
+    }
+
+    rotateEquipped(degrees) {
+        context.save();
+        context.translate(this.x + 60, this.y + 45);
+        context.rotate(degrees * Math.PI / 180);
+        context.drawImage(this.weapon, -this.weapon.width / 2, -this.weapon.width / 2);
+        context.restore();
+    }
 
     draw(x, y, pose) {
-        context.clearRect(x, y, spriteW, spriteH);
-        context.drawImage(figure,
+        context.clearRect(x, y, this.spriteW, this.spriteH);
+        context.drawImage(this.sprite,
             // source rectangle
-            pose * spriteW, 5, spriteW, spriteH,
+            pose * this.spriteW, 0, this.spriteW, this.spriteH,
             // destination rectangle
-            x, y, spriteW, spriteH);
+            x, y, this.spriteW, this.spriteH);
+        this.drawEquipped();
+
+        if (pose !== 8) {
+            this.rotateEquipped(-this.degree);
+        } else {
+            this.rotateEquipped(-30);
+        }
         this.last_x = x;
         this.last_y = y;
     }
 
-    drawJump(x, y) {
-        this.draw(x, y, 9);
+    drawJump() {
+        this.draw(player.x, player.y, 9);
     }
 
-    drawMovement(x, y) {
-        if(x < this.last_x){
-            figure.src = "sprits/playerLeft.png";
-        }else{
-            figure.src = "sprits/playerRight.png";
-        }
-
-        if (x === this.last_x) {
-            this.draw(x, y, 8);
+    drawMovement() {
+        if (player.x < this.last_x) {
+            this.sprite.src = "sprits/playerLeft.png";
         } else {
-            this.draw(x, y,this.pose);
+            this.sprite.src = "sprits/playerRight.png";
         }
 
+        if (player.x === this.last_x) {
+            this.draw(player.x, player.y, 8);
+        } else {
+            this.draw(player.x, player.y, this.pose);
+        }
 
     }
 
@@ -78,52 +100,13 @@ class Player {
             x + (horizontal ? image.width : 0), // set the x origin
             y + (vertical ? image.height : 0)   // set the y origin
         );
-        ctx.drawImage(image, 8 * spriteW, 0, spriteW, spriteH);
+        ctx.drawImage(image, 8 * this.spriteW, 0, this.spriteW, this.spriteH);
         ctx.restore(); // restore the state as it was when this function was called
     }
 
 }
 
 const player = new Player();
-
-figure.addEventListener("load", () => {
-    /*context.clearRect(5, 5, spriteW, spriteH);
-    context.drawImage(figure,
-        // source rectangle
-        8 * spriteW, 5, spriteW, spriteH,
-        // destination rectangle
-        50, 50, spriteW, spriteH);
-*/
-    //drawStanding(500, 400);
-});
-
-/*
-figure.addEventListener("load", () => {
-    let cycle = 0;
-    setInterval(() => {
-        context.clearRect(5, 5, spriteW, spriteH);
-        context.drawImage(figure,
-            // source rectangle
-            cycle * spriteW, 5, spriteW, spriteH,
-            // destination rectangle
-            5, 5, spriteW, spriteH);
-        cycle = (cycle + 1) % 8;
-    }, 120);
-});*/
-
-/*
-rectangle = {
-
-    height: 32,
-    jumping: true,
-    width: 32,
-    x: 144, // center of the canvas
-    x_velocity: 0,
-    y: 0,
-    y_velocity: 0
-
-};
-*/
 
 
 controller = {
@@ -133,7 +116,7 @@ controller = {
     up: false,
     keyListener: function (event) {
 
-        var key_state = (event.type == "keydown") ? true : false;
+        const key_state = (event.type === "keydown");
 
         switch (event.keyCode) {
 
@@ -155,65 +138,66 @@ controller = {
 
 loop = function () {
 
-    if (controller.up && figure.jumping == false) {
+    if (controller.up && player.jumping === false) {
 
-        figure.y_velocity -= 20;
-        figure.jumping = true;
+        player.y_velocity -= 20;
+        player.jumping = true;
 
     }
 
     if (controller.left) {
 
-        figure.x_velocity -= 3.5;
+        player.x_velocity -= 3.5;
 
     }
 
     if (controller.right) {
 
-        figure.x_velocity += 3.5;
+        player.x_velocity += 3.5;
     }
 
-    figure.y_velocity += 1;// gravity
-    figure.x_pos += figure.x_velocity;
-    figure.y_pos += figure.y_velocity;
-    figure.x_velocity *= 0.01;// friction
-    figure.y_velocity *= 0.9;// friction
+    player.y_velocity += 1;// gravity
+    player.x += player.x_velocity;
+    player.y += player.y_velocity;
+    player.x_velocity *= 0.01;// friction
+    player.y_velocity *= 0.9;// friction
 
 
-    // if figure is falling below floor line
-    if (figure.y_pos > window_height - spriteH) {
+    // if player.sprite is falling below floor line
+    if (player.y > window_height - player.spriteH) {
 
-        figure.jumping = false;
-        figure.y_pos = window_height - spriteH;
-        figure.y_velocity = 0;
+        player.jumping = false;
+        player.y = window_height - player.spriteH;
+        player.y_velocity = 0;
 
     }
 
-    // if figure is going off the left of the screen
-    if (figure.x_pos < -1 * spriteW) {
+    // if player.sprite is going off the left of the screen
+    if (player.x < -1 * player.spriteW) {
 
-        figure.x_pos = window_width;
+        player.x = window_width;
 
 
-    } else if (figure.x_pos > window_width) {// if figure goes past right boundary
+    } else if (player.x > window_width) {// if player.sprite goes past right boundary
 
-        figure.x_pos = -1 * spriteW;
+        player.x = -1 * player.spriteW;
 
     }
 
     context.fillStyle = "#202020";
     context.fillRect(0, 0, window_width, window_height);// x, y, width, height
     context.beginPath();
-    context.rect(figure.x, figure.y, figure.width, figure.height);
+    context.rect(player.x, player.y, player.sprite.width, player.sprite.height);
     context.fill();
     context.lineWidth = 4;
     context.beginPath();
     context.stroke();
-    if (figure.y_pos < window_height - spriteH) {
-        player.drawJump(figure.x_pos, figure.y_pos);
+    if (player.y < window_height - player.spriteH) {
+        player.drawJump();
     } else {
-        player.drawMovement(figure.x_pos, figure.y_pos);
+        player.drawMovement();
     }
+    console.log(player.x, player.y);
     player.increment();
     // call update when the browser is ready to draw again
     window.requestAnimationFrame(loop);
