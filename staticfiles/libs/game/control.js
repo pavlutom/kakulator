@@ -10,7 +10,7 @@ context.canvas.width = window_width;
 
 let figure = document.createElement("img");
 
-figure.src = "player.png";
+figure.src = "sprits/playerRight.png";
 figure.style.backgroundColor = "rgba(0, 0, 0, 0.30)";
 figure.facing_right = true;
 figure.jumping = true;
@@ -53,17 +53,22 @@ class Player {
         this.draw(x, y, 9);
     }
 
-    drawStanding(x, y) {
+    drawMovement(x, y) {
+        if(x < this.last_x){
+            figure.src = "sprits/playerLeft.png";
+        }else{
+            figure.src = "sprits/playerRight.png";
+        }
+
         if (x === this.last_x) {
             this.draw(x, y, 8);
         } else {
-            this.drawWalkRight(x, y);
+            this.draw(x, y,this.pose);
         }
+
+
     }
 
-    drawWalkRight(x, y) {
-        this.draw(x, y, this.pose);
-    }
 
     mirrorImage(ctx, image, x = 0, y = 0, horizontal = false, vertical = false) {
         ctx.save();  // save the current canvas state
@@ -207,7 +212,7 @@ loop = function () {
     if (figure.y_pos < window_height - spriteH) {
         player.drawJump(figure.x_pos, figure.y_pos);
     } else {
-        player.drawStanding(figure.x_pos, figure.y_pos);
+        player.drawMovement(figure.x_pos, figure.y_pos);
     }
     player.increment();
     // call update when the browser is ready to draw again
