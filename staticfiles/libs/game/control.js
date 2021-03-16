@@ -5,8 +5,67 @@ context = document.querySelector("canvas").getContext("2d");
 
 var window_width = screen.width / 2;
 var window_height = screen.height / 2;
+var object_to_update = [];
 context.canvas.height = window_height;
 context.canvas.width = window_width;
+
+class Point {
+    x;
+    y;
+
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    toString() {
+        console.log("X:", this.x, "Y:", this.y);
+    }
+}
+
+class Projectile {
+    x;
+    y;
+    speed;
+    velX = 0;
+    velY = 0;
+    src;
+    owner;
+
+
+    constructor(owner, dest, speed) {
+        this.src = new Point(owner.x, owner.y);
+        this.x = this.src.x;
+        this.y = this.src.y;
+        this.speed = speed;
+        this.sprite = new Image(8, 8);
+        this.sprite.src = "sprits/characters/Effect1/1.png";
+        context.drawImage(this.sprite, this.src.x, this.src.y);
+        object_to_update.push(this);
+        this.moveToPoint(dest);
+    }
+
+    moveToPoint(dest) {
+        var deltaX = dest.x - this.src.x;
+        var deltaY = dest.y - this.src.y;
+        var a = deltaX * deltaX;
+        var b = deltaY * deltaY;
+        var c = Math.sqrt(a + b);
+
+        this.velX = (dest.x - this.src.x) / c;
+        this.velY = (dest.y - this.src.y) / c;
+
+        console.log(this.velX, this.velY);
+    }
+
+
+    update() {
+        this.x += this.velX*this.speed;
+        this.y += this.velY*this.speed;
+        context.drawImage(this.sprite, this.x, this.y);
+    }
+
+}
 
 
 class Player {
@@ -25,12 +84,12 @@ class Player {
         this.face_right = true;
         this.pose = 8;
         this.frame_no = 0;
-        this.equiped = 0;
+        this.equiped = false;
         this.degree = 40;
     }
 
-    increment() {
-        if (this.frame_no > 3) {
+    update() {
+        if (this.frame_no > 4) {
             this.pose = (this.pose + 1) % 8;
             this.frame_no = 0;
         } else {
@@ -61,12 +120,14 @@ class Player {
             pose * this.spriteW, 0, this.spriteW, this.spriteH,
             // destination rectangle
             x, y, this.spriteW, this.spriteH);
-        this.drawEquipped();
+        if (this.equiped) {
+            this.drawEquipped();
 
-        if (pose !== 8) {
-            this.rotateEquipped(-this.degree);
-        } else {
-            this.rotateEquipped(-30);
+            if (pose !== 8) {
+                this.rotateEquipped(-this.degree);
+            } else {
+                this.rotateEquipped(-30);
+            }
         }
         this.last_x = x;
         this.last_y = y;
@@ -109,6 +170,12 @@ class Player {
 const player = new Player();
 
 
+clicker = {
+    mouseListener: function (event) {
+        var proj = new Projectile(player, new Point(event.pageX, event.pageY), 10);
+    }
+}
+
 controller = {
 
     left: false,
@@ -116,8 +183,7 @@ controller = {
     up: false,
     keyListener: function (event) {
 
-        const key_state = (event.type === "keydown");
-
+        const key_state = (event.type === "keydown")
         switch (event.keyCode) {
 
             case 65:  //a
@@ -197,12 +263,13 @@ loop = function () {
     } else {
         player.drawMovement();
     }
-    console.log(player.x, player.y);
-    player.increment();
+    player.update();
+    object_to_update.forEach(obj => obj.update());
     // call update when the browser is ready to draw again
     window.requestAnimationFrame(loop);
 };
-
+window.addEventListener("mousedown", clicker.mouseListener);
+//window.addEventListener("mouseup", controller.keyListener);
 window.addEventListener("keydown", controller.keyListener)
 window.addEventListener("keyup", controller.keyListener);
 window.requestAnimationFrame(loop);
