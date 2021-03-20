@@ -31,15 +31,21 @@ class Projectile {
     velY = 0;
     src;
     owner;
+    weight;
+    img_no;
+    rotate;
 
 
-    constructor(owner, dest, speed) {
+    constructor(owner, dest, speed, rotate = true) {
+        this.img_no = 1;
+        this.weight = 0.005;
         this.src = new Point(owner.x, owner.y);
         this.x = this.src.x;
         this.y = this.src.y;
         this.speed = speed;
         this.sprite = new Image(8, 8);
         this.sprite.src = "sprits/characters/Effect1/1.png";
+        this.rotate = rotate;
         context.drawImage(this.sprite, this.src.x, this.src.y);
         object_to_update.push(this);
         this.moveToPoint(dest);
@@ -52,17 +58,37 @@ class Projectile {
         var b = deltaY * deltaY;
         var c = Math.sqrt(a + b);
 
+        console.log(dest)
+        console.log(this.src)
         this.velX = (dest.x - this.src.x) / c;
         this.velY = (dest.y - this.src.y) / c;
 
-        console.log(this.velX, this.velY);
+        console.log(this.x, this.y, "|||", this.velX, this.velY);
     }
 
+    rotateEquipped(degrees) {
+        context.save();
+        context.translate(this.x + 60, this.y + 45);
+        context.rotate(degrees * Math.PI / 180);
+        context.drawImage(this.sprite, -this.sprite.width / 2, -this.sprite.width / 2);
+        context.restore();
+    }
 
     update() {
-        this.x += this.velX*this.speed;
-        this.y += this.velY*this.speed;
-        context.drawImage(this.sprite, this.x, this.y);
+        this.velY += this.weight;
+        let incrementX = this.velX * this.speed;
+        let incrementY = this.velY * this.speed;
+        const delta_x = (incrementX + this.x) - this.x
+        const delta_y = (incrementY + this.y) - this.y
+        const theta_radians = Math.atan2(delta_y, delta_x) * 180 / Math.PI
+        this.x += incrementX;
+        this.y += incrementY;
+        this.sprite.src = "sprits/characters/Effect1/" + (Math.floor(this.img_no) % 60) + ".png";
+        this.img_no += 0.5;
+        if (!this.rotate)
+            context.drawImage(this.sprite, this.x, this.y);
+        else
+            this.rotateEquipped(theta_radians);
     }
 
 }
@@ -172,7 +198,8 @@ const player = new Player();
 
 clicker = {
     mouseListener: function (event) {
-        var proj = new Projectile(player, new Point(event.pageX, event.pageY), 10);
+        const canvasRect = context.canvas.getBoundingClientRect();
+        const proj = new Projectile(player, new Point(event.clientX - canvasRect.left, event.clientY - canvasRect.top), 10);
     }
 }
 
