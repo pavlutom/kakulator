@@ -6,9 +6,17 @@
 {% endblock %}
 
 {% block content %}
-    <section class="py-5 text-center container">
-        <h1 class="mt-5">
-            Welcome to {{ PROJECT_NAME }}!
-        </h1>
+    <section class="py-5 container">
+        <div class="jumbotron">
+            <h1 class="display-4">
+                Welcome to Kakulator
+            </h1>
+            <p class="lead my-5">
+                Kakulator is a web application, which uses cutting-edge mathematical software to satisfy all your kakulation needs.
+            </p>
+            <a class="btn btn-primary btn-lg" href="{% url "kakulator:basic" %}" role="button">
+                Start Kakulating
+            </a>
+        </div>
     </section>
 {% endblock content %}
