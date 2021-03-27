@@ -1,6 +1,6 @@
 # Kakulator
 
-Kakulator is a Django application, which uses cutting-edge mathematical software to satisfy all your kakulation needs.
+[Kakulator](https://kakulator.herokuapp.com/) is a Django application, which uses cutting-edge mathematical software to satisfy all your kakulation needs.
 
 
 ### Installation guide
@@ -22,7 +22,7 @@ SECRET_KEY=<whatever_string_you_want>
 
 PROJECT_NAME=Kakulator
 PROJECT_URL=https://127.0.0.1:8880
-PROJECT_VERSION=0.0.2-alpha
+PROJECT_VERSION=0.1.0-dev
 
 DB_NAME=kakulator
 DB_USER=<your_db_superuser_scheme>
